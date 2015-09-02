@@ -5,12 +5,10 @@
  */
 package numero.aleatorio;
 
-import java.awt.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,15 +17,14 @@ import javax.swing.JOptionPane;
  */
 public class Tela extends javax.swing.JFrame implements MouseListener, MouseMotionListener {
 
-    int semente = 0;
-    ArrayList<Integer> numeros = new ArrayList<>();
+    long semente = 0;
+    ArrayList<Long> numeros = new ArrayList<>();
 
     public Tela() {
 
         initComponents();
         addMouseListener(this);
         addMouseMotionListener(this);
-
     }
 
     /**
@@ -96,16 +93,20 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
     private void botaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoActionPerformed
         System.out.println("Semente: " + semente);
         int num = 0;
+        
+        long teste = 4860124324385572150L;
         try {
             num = Integer.parseInt(texto.getText());
-            int x = (int) Math.pow(2, 16);
-            numeros.add((16 + semente)%x);
-            System.out.println("zero: "+ numeros.get(x));
+            int x =  (int) Math.pow(2, 16);
+            System.out.println("x " + x);
+            numeros.add((16 + teste )% x);
+            System.out.println("zero: "+ numeros.get(0));
             for (int i = 1; i <= num; i++) {
 
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "teste");
+            System.err.println(e);
         }
 
 
@@ -151,12 +152,12 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        semente += (e.getX() + e.getY());
+        semente += (e.getX() * e.getY());
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        semente += (e.getX() + e.getY());
+        semente += (e.getX() * e.getY());
     }
 
     @Override
@@ -165,6 +166,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        semente += (e.getX() + e.getY());
+        semente += (e.getX() * e.getY());
     }
 }
