@@ -8,6 +8,8 @@ package numero.aleatorio;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -94,18 +96,27 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
         System.out.println("Semente: " + semente);
         int num = 0;
         
-        long teste = 4860124324385572150L;
         try {
-            num = Integer.parseInt(texto.getText());
+            num = (Integer.parseInt(texto.getText()));
             int x =  (int) Math.pow(2, 16);
             System.out.println("x " + x);
-            numeros.add((16 + teste )% x);
+            numeros.add((16 + semente )% x);
             System.out.println("zero: "+ numeros.get(0));
-            for (int i = 1; i <= num; i++) {
+            for (int i = 1; i < num-1; i++) {
+                numeros.add((16 + numeros.get(i-1) )% x);
+            }
+            
+            FileWriter arq = new FileWriter("Resultado.txt"); 
+            PrintWriter gravarArq = new PrintWriter(arq);
 
+
+            
+            for (Long numero : numeros) {
+                
+               
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "teste");
+            JOptionPane.showMessageDialog(this, "Digite somente numeros");
             System.err.println(e);
         }
 
@@ -157,7 +168,7 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseExited(MouseEvent e) {
-        semente += (e.getX() * e.getY());
+        semente += (e.getX() / e.getY());
     }
 
     @Override
@@ -166,6 +177,6 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        semente += (e.getX() * e.getY());
+        semente += (e.getX() + e.getY());
     }
 }
