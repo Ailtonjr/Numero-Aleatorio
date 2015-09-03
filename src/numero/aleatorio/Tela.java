@@ -8,10 +8,11 @@ package numero.aleatorio;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 public class Tela extends javax.swing.JFrame implements MouseListener, MouseMotionListener {
 
     long semente = 0;
+    int num = 0;
     ArrayList<Long> numeros = new ArrayList<>();
 
     public Tela() {
@@ -38,12 +40,15 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label = new javax.swing.JLabel();
+        label_semente = new javax.swing.JLabel();
         botao = new javax.swing.JButton();
-        texto = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        label_qtd = new javax.swing.JLabel();
+        label_aqruivo = new javax.swing.JLabel();
+        spinner_qtd = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        label_semente.setForeground(new java.awt.Color(0, 153, 51));
 
         botao.setText("Gerar");
         botao.addActionListener(new java.awt.event.ActionListener() {
@@ -52,40 +57,49 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
             }
         });
 
-        jLabel1.setText("Quantidade");
+        label_qtd.setText("Quantidade");
+
+        spinner_qtd.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinner_qtdStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(label)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(spinner_qtd, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 19, Short.MAX_VALUE)
+                .addComponent(botao)
+                .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(texto, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botao)
-                        .addContainerGap(31, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(label_semente, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_qtd))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(label_aqruivo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(label)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addGap(6, 6, 6)
+                .addComponent(label_semente, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(label_qtd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botao)
-                    .addComponent(texto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(spinner_qtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(label_aqruivo, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -93,35 +107,26 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoActionPerformed
-        System.out.println("Semente: " + semente);
-        int num = 0;
-        
+        label_semente.setText("Semente: " + semente);
         try {
-            num = (Integer.parseInt(texto.getText()));
-            int x =  (int) Math.pow(2, 16);
-            System.out.println("x " + x);
-            numeros.add((16 + semente )% x);
-            System.out.println("zero: "+ numeros.get(0));
-            for (int i = 1; i < num-1; i++) {
-                numeros.add((16 + numeros.get(i-1) )% x);
-            }
-            
-            FileWriter arq = new FileWriter("Resultado.txt"); 
-            PrintWriter gravarArq = new PrintWriter(arq);
-
-
-            
-            for (Long numero : numeros) {
-                
-               
+            num = (int) spinner_qtd.getValue();
+            int x = (int) Math.pow(2, 16);
+            numeros.add((16 + semente) % x);
+            for (int i = 1; i < num; i++) {
+                numeros.add((16 + numeros.get(i - 1)) % x);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Digite somente numeros");
             System.err.println(e);
         }
-
-
+        GravarReg();
+        semente = 0;
     }//GEN-LAST:event_botaoActionPerformed
+
+    private void spinner_qtdStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinner_qtdStateChanged
+        label_aqruivo.setText("");
+        label_semente.setText("");
+        //num = (int) spinner_qtd.getValue();
+    }//GEN-LAST:event_spinner_qtdStateChanged
 
     /**
      * @param args the command line arguments
@@ -131,22 +136,34 @@ public class Tela extends javax.swing.JFrame implements MouseListener, MouseMoti
 
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Tela().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Tela().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botao;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel label;
-    private javax.swing.JTextField texto;
+    private javax.swing.JLabel label_aqruivo;
+    private javax.swing.JLabel label_qtd;
+    private javax.swing.JLabel label_semente;
+    private javax.swing.JSpinner spinner_qtd;
     // End of variables declaration//GEN-END:variables
 
-    public void geraNumeros(int num) {
-
+    public void GravarReg() {
+        FileOutputStream out;
+        PrintStream p;
+        try {
+            out = new FileOutputStream("Numeros.txt");
+            p = new PrintStream(out);
+            for (Long numero : numeros) {
+                p.println(numero);
+            }
+            p.flush();
+            p.close();
+            label_aqruivo.setText("Arquivo gravado, 'Numeros.txt'");
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
     @Override
